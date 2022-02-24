@@ -18,7 +18,7 @@
     },
   ];
  
- function List (list){
+ function List (){
      return(<ul>
         {list.map( (item) => {
           return (
