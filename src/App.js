@@ -1,8 +1,7 @@
 import * as React from "react";
 import List from "./components/list";
 import Search from "./components/search";
-import {useState,useEffect} from 'react';
-
+import { useState, useEffect } from "react";
 
 const App = () => {
   const stories = [
@@ -24,27 +23,36 @@ const App = () => {
     },
   ];
 
-  const [searchTerm, setSearchTerm] = useState(localStorage.getItem('search')||"React");
-
-  useEffect(() => {
-    localStorage.setItem('search', searchTerm);
-    }, [searchTerm]);
-    
-  
-  const handleChange = (event) => {
-    setSearchTerm(event.target.value);
-
+   const useSemiPersistentState = (key, initialState) => {
+    const [value, setValue] = useState(
+      localStorage.getItem(key) || initialState
+    );
+    useEffect(() => {
+      localStorage.setItem(key, value);
+    }, [value, key]);
+    return [value, setValue];
   };
 
+  const [searchTerm, setSearchTerm] = useSemiPersistentState("search","React");
+
+ 
+
+  useEffect(() => {
+    localStorage.setItem("search", searchTerm);
+  }, [searchTerm]);
+
+  const handleChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
 
   const searchedStories = stories.filter(function (story) {
     return story.title.toLowerCase().includes(searchTerm);
-    });
-    
+  });
+
   return (
     <div>
       <h1> My Hacker Stories</h1>
-      <Search search ={searchTerm} onSearch = {handleChange} />
+      <Search search={searchTerm} onSearch={handleChange} />
       {/* This is how you comment in JSX */}
       <h2>
         <strong>{searchTerm}</strong>
