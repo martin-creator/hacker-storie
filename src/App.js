@@ -1,11 +1,9 @@
 import * as React from "react";
 import List from "./components/list";
 import Search from "./components/search";
+import {useState} from 'react';
 
-
-
-const App = () =>{
- 
+const App = () => {
   const stories = [
     {
       title: "React",
@@ -24,18 +22,22 @@ const App = () =>{
       objectID: 1,
     },
   ];
+
+  const handleChange = (event) => {
+    console.log(event.target.value);
+  };
+
   return (
     <div>
       <h1> My Hacker Stories</h1>
-      <Search />
+      <Search onSearch = {handleChange} />
       {/* This is how you comment in JSX */}
 
       <hr />
 
-      <List list = {stories} />
-      
+      <List list={stories} />
     </div>
   );
-}
+};
 
 export default App;
