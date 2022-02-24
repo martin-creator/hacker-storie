@@ -3,6 +3,7 @@ import List from "./components/list";
 import Search from "./components/search";
 import {useState} from 'react';
 
+
 const App = () => {
   const stories = [
     {
@@ -23,19 +24,29 @@ const App = () => {
     },
   ];
 
+  const [searchTerm, setSearchTerm] = useState("");
+
   const handleChange = (event) => {
-    console.log(event.target.value);
+    setSearchTerm(event.target.value);
   };
 
+
+  const searchedStories = stories.filter(function (story) {
+    return story.title.toLowerCase().includes(searchTerm);
+    });
+    
   return (
     <div>
       <h1> My Hacker Stories</h1>
       <Search onSearch = {handleChange} />
       {/* This is how you comment in JSX */}
+      <h2>
+        <strong>{searchTerm}</strong>
+      </h2>
 
       <hr />
 
-      <List list={stories} />
+      <List list={searchedStories} />
     </div>
   );
 };
