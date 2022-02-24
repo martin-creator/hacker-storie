@@ -1,7 +1,7 @@
 import * as React from "react";
 import List from "./components/list";
 import Search from "./components/search";
-import {useState} from 'react';
+import {useState,useEffect} from 'react';
 
 
 const App = () => {
@@ -24,10 +24,16 @@ const App = () => {
     },
   ];
 
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState(localStorage.getItem('search')||"React");
 
+  useEffect(() => {
+    localStorage.setItem('search', searchTerm);
+    }, [searchTerm]);
+    
+  
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
+
   };
 
 
@@ -38,7 +44,7 @@ const App = () => {
   return (
     <div>
       <h1> My Hacker Stories</h1>
-      <Search onSearch = {handleChange} />
+      <Search search ={searchTerm} onSearch = {handleChange} />
       {/* This is how you comment in JSX */}
       <h2>
         <strong>{searchTerm}</strong>
